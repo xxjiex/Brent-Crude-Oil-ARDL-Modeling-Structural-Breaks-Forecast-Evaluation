@@ -43,17 +43,21 @@ Pesaran, Shin & Smith (2001) bounds testing procedure, critical values verified 
 
 > **Result:** Neither the F-test nor the t-test supports a long-run cointegrating relationship. The t-test rejects cointegration at all conventional levels; the F-test is inconclusive at 10%/5% and tips toward no cointegration at 1%.
 
-Bounds F-statistic: 3.099 
-Critical values - Case III (unrestricted intercept, no trend), k=4:
-| 10% | I(0)=2.45 | I(1)=3.52 |
-| 5% | I(0)=2.86 | I(1)=4.01 |
-| 1% | I(0)=3.74 | I(1)=5.06 |
+>Bounds F-statistic: 3.099 
+>Critical values - Case III (unrestricted intercept, no trend), k=4:
+| Sig. Lvl | I(0) | I(1) |
+|---|---|---|
+| 10% | 2.45 | 3.52 |
+| 5% | 2.86 | 4.01 |
+| 1% | 3.74 | 5.06 |
    
-Error-correction term t-stat (Brent_L1): -2.556
-Critical values - Case III (unrestricted intercept, no trend), k=4:
-| 10% | I(0)=-2.57 | I(1)=-3.66 |
-| 5% | I(0)=-2.86 | I(1)=-3.99 |
-| 1% | I(0)=-3.43 | I(1)=-4.60 |
+>Error-correction term t-stat (Brent_L1): -2.556
+>Critical values - Case III (unrestricted intercept, no trend), k=4:
+| Sig. Lvl | I(0) | I(1) |
+|---|---|---|
+| 10% | -2.57 | -3.66 |
+| 5% | -2.86 | -3.99 |
+| 1% | -3.43 | -4.60 |
 
 Finding: a short-run-only relationship means Brent's drivers act as shocks and adjustments rather than a stable equilibrium anchor.
 
