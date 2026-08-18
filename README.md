@@ -117,7 +117,7 @@ A rolling 30-month regression revealed substantial parameter instability.
 | GPR_Index | Sensitivity increases after 2022 |
 | China_PMI | Demand signal weakens during 2020–2022 |
 
-![Rolling Coefficients](figures/crude oil_rolling_coefficients.png)
+![Rolling Coefficients](figures/charts/crude%20oil_rolling_coefficients.png)
 
 *Figure 2. Rolling 30-month coefficient estimates showing parameter instability across the sample period.*
 
@@ -147,7 +147,7 @@ A rolling 30-month regression revealed substantial parameter instability.
 
 > **Caveat:** Forecasts use realized future values of the explanatory variables (conditional/ex-post forecasts) rather than recursively forecasting all explanatory variables.
 
-![Forecast Comparison](figures/forecast_vs_actual.png)
+![Forecast Comparison](figures/charts/ardl_vs_rw_forecast.png)
 
 *Figure 3. Out-of-sample forecast performance compared with a random-walk benchmark.*
 
@@ -158,23 +158,6 @@ A rolling 30-month regression revealed substantial parameter instability.
 - Potential endogeneity between Brent, USD_Index, and China_PMI.
 - VAR and Granger causality could provide additional robustness checks.
 - Additional residual diagnostics could strengthen the forecasting analysis.
-
----
-
-## Repository Structure
-
-```text
-.
-├── code/
-│   └── Brent_ARDL.ipynb
-├── data/
-│   └── Brent_dataset.csv
-├── figures/
-│   ├── correlation_matrix.png
-│   ├── rolling_coefficients.png
-│   └── forecast_vs_actual.png
-└── README.md
-```
 
 ---
 
