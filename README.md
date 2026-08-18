@@ -2,8 +2,6 @@
 
 *An independent research project on the short-run determinants of Brent crude prices, tested for long-run equilibrium, structural stability, and out-of-sample forecast performance against a random walk. January 2010 – July 2026.*
 
-**[Live site](#)** · **[Notebook](#)** · Built manually in NumPy/SciPy — no `statsmodels`
-
 ---
 
 ## The question
@@ -26,7 +24,18 @@ Brent crude is driven by a mix of inventories, the dollar, global demand, and ge
 
 Lag structure selected via grid search over AIC/BIC rather than assumed. The winning specification is **ARDL(3,1)**: three lags of Brent, one lag of each regressor. In-sample fit: **R² ≈ 0.946**.
 
-<!-- TODO: paste the fitted equation / coefficient table -->
+p=3, q=1
+General ARDL(p, q1, q2, q3, q4):
+Brent_t = α + Σ(i=1..p) βᵢ·Brent_(t−i)
+            + Σ(j=0..q1) γⱼ·Stocks_(t−j)
+            + Σ(j=0..q2) δⱼ·USD_Index_(t−j)
+            + Σ(j=0..q3) θⱼ·China_PMI_(t−j)
+            + Σ(j=0..q4) φⱼ·GPR_Index_(t−j)
+            + εₜ
+
+## Coefficient estimates
+
+Significant drivers: own lags (persistence, sum of AR coefficients ≈ 0.90 — stable, non-explosive), USD_Index (contemporaneous and lag 1), GPR_Index (contemporaneous and lag 1).
 
 ## Bounds test — is there a long-run relationship?
 
@@ -34,9 +43,19 @@ Pesaran, Shin & Smith (2001) bounds testing procedure, critical values verified 
 
 > **Result:** Neither the F-test nor the t-test supports a long-run cointegrating relationship. The t-test rejects cointegration at all conventional levels; the F-test is inconclusive at 10%/5% and tips toward no cointegration at 1%.
 
-<!-- TODO: paste actual F-stat, t-stat, and PSS critical value bounds -->
+Bounds F-statistic: 3.099 
+Critical values - Case III (unrestricted intercept, no trend), k=4:
+| 10% | I(0)=2.45 | I(1)=3.52 |
+| 5% | I(0)=2.86 | I(1)=4.01 |
+| 1% | I(0)=3.74 | I(1)=5.06 |
+   
+Error-correction term t-stat (Brent_L1): -2.556
+Critical values - Case III (unrestricted intercept, no trend), k=4:
+| 10% | I(0)=-2.57 | I(1)=-3.66 |
+| 5% | I(0)=-2.86 | I(1)=-3.99 |
+| 1% | I(0)=-3.43 | I(1)=-4.60 |
 
-This is treated as a finding, not a failure: a short-run-only relationship means Brent's drivers act as shocks and adjustments rather than a stable equilibrium anchor.
+Finding: a short-run-only relationship means Brent's drivers act as shocks and adjustments rather than a stable equilibrium anchor.
 
 ## Structural breaks
 
@@ -45,41 +64,39 @@ Chow tests flag two significant breaks — **February 2020** and **February 2022
 - **USD_Index** — sign reversal across the sample window
 - **GPR_Index** — step-change in sensitivity around the break dates
 - **China_PMI** — demand signal effectively goes dark during 2020–22
+See visualizations in figures.
 
 ## Forecast evaluation vs. random walk
 
-Rolling-window walk-forward evaluation (not a single static split) across multiple horizons — 1-step, and multi-step h = 3, 6, 12 — benchmarked against a random walk.
+Rolling-window walk-forward evaluation (not a single static split) across multiple horizons — 1-step, benchmarked against a random walk.
 
-**Diebold–Mariano test:** formal test of whether ARDL forecast errors are significantly lower than the random walk benchmark, not just numerically lower.
-<!-- TODO: fill in DM test result once run -->
+> **Result:**
+| Metric | ARDL(3,1) | Random Walk |
+|---|---|---|
+| RMSE |7.534 | 8.419 |
+| MAE | 5.329 | 5.260 |
+| Error std | 7.519 |8.417 |
 
-<!-- TODO: note whether test-period forecasts are truly out-of-sample for regressors, or conditional on realized future regressor values -->
+> **Diebold–Mariano test:**  stat = -1.068, p = 0.285 (not significant at 5%)
 
-## Extension — MYR/USD & fiscal exposure
-
-A lightweight supplement, not a second empirical chapter: how much of MYR/USD variation traces back to the dollar versus Brent, framed as fiscal/policy exposure rather than political analysis.
-
-- DXY explains roughly **50%** of monthly MYR variation and is highly significant
-- Brent's coefficient is directionally consistent with terms-of-trade logic but **not statistically significant** in either the short-run or levels specification
-- Engle–Granger cointegration test: inconclusive
+Finding:  The model's primary value lies in explaining historical price determinants, not in exploitable short-term forecasting.
+Caveat: Exogenous regressors (Stocks, DXY, PMI, GPR) use realized future values in the forecast — this is a conditional/ex-post forecast, not a true unconditional forecast.
 
 ## Limitations & next steps
 
 - Endogeneity between Brent, DXY, and China PMI — VAR / Granger causality as a robustness check
-- Possible removal of the insignificant crude-stocks variable for a leaner specification
 - Residual diagnostics (Breusch–Pagan, Jarque–Bera) ahead of the forecast split
 
 ## Repo structure
 
 ```
 .
-├── index.html              # GitHub Pages site
-├── assets/charts/           # exported chart images
-├── notebook/                 # full Jupyter notebook
-├── data/merged_monthly.csv   # dataset
+├── code/                 # full Jupyter notebook
+├── data/   # dataset
+├── figures/           # exported chart images
 └── README.md
 ```
 
 ## Tools
 
-Python (NumPy, SciPy, pandas) · Jupyter Notebook · manual econometrics implementation, no `statsmodels`
+Python (NumPy, SciPy, pandas) · Jupyter Notebook 
